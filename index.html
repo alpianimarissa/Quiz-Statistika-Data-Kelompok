@@ -37,6 +37,7 @@
             }
         }
     </script>
+    
     <style>
         ::-webkit-scrollbar {
             width: 8px;
@@ -145,7 +146,7 @@
     </footer>
 
     <script>
-        // Verified 10 Questions Dataset for Grouped Data Statistics with escaped LaTeX
+        // Verified 10 Questions Dataset for Grouped Data Statistics with properly escaped LaTeX
         const quizData = [
             {
                 id: 1,
@@ -252,7 +253,7 @@
                 explain: `
                     <div class="space-y-2 text-xs leading-relaxed">
                         <p><strong>1. Mean:</strong> $\\bar{x} = \\frac{275}{20} = 13.75$</p>
-                        <p><strong>2. Modus:</strong> Kelas modus titik tengah 14 ( interval 12–16, $f=8$). $T_b=11.5, d_1=4, d_2=3, p=5$. $Mo = 11.5 + \\left(\\frac{4}{7}\\right) \\cdot 5 \\approx 14.17$</p>
+                        <p><strong>2. Modus:</strong> Kelas modus titik tengah 14 (interval 12–16, $f=8$). $T_b=11.5, d_1=4, d_2=3, p=5$. $Mo = 11.5 + \\left(\\frac{4}{7}\\right) \\cdot 5 \\approx 14.17$</p>
                         <p><strong>3. Median ($Q_2$):</strong> Letak 10 (Kelas 12–16). $T_b=11.5, F_k=6, f=8, p=5$. $Q_2 = 11.5 + \\left(\\frac{10-6}{8}\\right) \\cdot 5 = 14.00$</p>
                         <p><strong>4. $Q_1$:</strong> Letak 5 (Kelas 7–11). $T_b=6.5, F_k=2, f=4, p=5$. $Q_1 = 6.5 + \\left(\\frac{5-2}{4}\\right) \\cdot 5 = 10.25$</p>
                         <p><strong>5. $Q_3$:</strong> Letak 15 (Kelas 17–21). $T_b=16.5, F_k=14, f=5, p=5$. $Q_3 = 16.5 + \\left(\\frac{15-14}{5}\\right) \\cdot 5 = 17.70$</p>
@@ -531,10 +532,10 @@
             }
         ];
 
-        const STORAGE_KEY = "quiz_statistika_10soal_answers_v3";
+        const STORAGE_KEY = "quiz_statistika_10soal_answers_v4";
         let currentQuizIndex = 0;
         let quizCompletedStatus = new Array(10).fill(false);
-        let savedAnswersStore = {}; // { soal_1: { fieldId: value }, ... }
+        let savedAnswersStore = {}; 
 
         window.onload = function() {
             loadSavedData();
@@ -714,7 +715,7 @@
                         </table>
                     </div>
 
-                    <!-- BAGIAN ISIAN UTAMA 8 METRIK -->
+                    <!-- BAGIAN ISIAN UTAMA 8 METRIK WITH PROPER LATEX ESCAPING -->
                     <div class="border border-brand-200 rounded-xl overflow-hidden bg-brand-50/20 p-4 sm:p-5 space-y-4">
                         <h4 class="font-bold text-xs uppercase tracking-wider text-brand-900 flex items-center gap-2 border-b border-brand-200 pb-2">
                             <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -726,7 +727,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
                             <!-- Mean -->
                             <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1 shadow-sm focus-within:ring-2 focus-within:ring-brand-500">
-                                <label class="font-bold text-slate-800 block">1. Mean ($\bar{x}$):</label>
+                                <label class="font-bold text-slate-800 block">1. Mean ($\\bar{x}$):</label>
                                 <input type="number" step="any" id="qz-ans-mean" oninput="captureCurrentInputs()" class="w-full p-2 border border-slate-300 rounded-lg font-bold text-brand-700 focus:outline-none" placeholder="Masukkan nilai...">
                             </div>
 
@@ -890,18 +891,19 @@
             const fbBox = document.getElementById('qz-feedback-box');
             fbBox.classList.remove('hidden');
 
-            const tolerance = 0.25; // Accepts minor decimal rounding differences
+            const tolerance = 0.25; // Accepts minor rounding differences
             let errors = [];
 
+            // Corrected check labels with proper KaTeX inline math delimiters $...$
             const checks = [
-                { id: 'qz-ans-mean', label: 'Mean (\\bar{x})', expected: data.mean },
-                { id: 'qz-ans-median', label: 'Median (Me = Q_2)', expected: data.median },
-                { id: 'qz-ans-modus', label: 'Modus (Mo)', expected: data.modus },
-                { id: 'qz-ans-sr', label: 'Simpangan Rata-rata (SR)', expected: data.sr },
-                { id: 'qz-ans-varians', label: 'Varians (S^2)', expected: data.varians },
-                { id: 'qz-ans-sbaku', label: 'Simpangan Baku (S)', expected: data.simpanganBaku },
-                { id: 'qz-ans-q1', label: 'Kuartil 1 (Q_1)', expected: data.q1 },
-                { id: 'qz-ans-q3', label: 'Kuartil 3 (Q_3)', expected: data.q3 },
+                { id: 'qz-ans-mean', label: 'Mean ($\\bar{x}$)', expected: data.mean },
+                { id: 'qz-ans-median', label: 'Median ($Me = Q_2$)', expected: data.median },
+                { id: 'qz-ans-modus', label: 'Modus ($Mo$)', expected: data.modus },
+                { id: 'qz-ans-sr', label: 'Simpangan Rata-rata ($SR$)', expected: data.sr },
+                { id: 'qz-ans-varians', label: 'Varians ($S^2$)', expected: data.varians },
+                { id: 'qz-ans-sbaku', label: 'Simpangan Baku ($S$)', expected: data.simpanganBaku },
+                { id: 'qz-ans-q1', label: 'Kuartil 1 ($Q_1$)', expected: data.q1 },
+                { id: 'qz-ans-q3', label: 'Kuartil 3 ($Q_3$)', expected: data.q3 },
             ];
 
             checks.forEach(item => {
